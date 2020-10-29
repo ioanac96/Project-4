@@ -11,9 +11,19 @@ function Small(props) {
         else if (Math.abs(i - currentPage) <= 1) pagesShowing.push(i);
     }
 
+    // const onChangePage =  (page) => {
+    //     console.log("Vreau la pagina:", page);
+    // }
+
     return (
         <div>
-            {pagesShowing.map(page => (<span style={{marginLeft: '5px'}}>{page + 1}</span>))}
+            <ArrowBackIosIcon onClick={() => {
+                currentPage !== 0 && props.onChangePage(currentPage-1)
+            }} /> 
+            {pagesShowing.map(page => (<span onClick={()=>{props.onChangePage(page)}} style={{marginLeft: '5px'}} className={`small-page ${page === currentPage ? 'current-page' : ''}`}>{page + 1}</span>))}
+            <ArrowForwardIosIcon onClick={() => {
+                currentPage !== pages-1 && props.onChangePage(currentPage+1)
+            }}/>
         </div>
     )
 

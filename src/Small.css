@@ -2,3 +2,12 @@
     display: flex;
     flex-direction: row;
 }
+
+.small-page {
+     border: 1px solid black;
+     cursor: pointer;
+}
+
+.current-page {
+    color: red;
+}

@@ -1,14 +1,15 @@
 import React, {useState} from 'react';
 import './App.css';
-import Small from './Small.js';
-
+import Loader from './Loader.js';
+import RequestedItems from './RequestedItems.js';
 
 function App() {
 
   const [searchValue, setSearch] = useState('');
-  const [images, setImages]= useState([]);
   const [numberPages, setPages] = useState(1);
   const [itemsPerPage, setWanted] = useState(50);
+  const [items, setItems] = useState({});
+  const [loader, setLoader] = useState(false);
 
   const makeRequest = () => {
     const request = new Request(`http://localhost:3001/v4/icons/search?query=${searchValue}&count=${itemsPerPage}`, 
@@ -19,6 +20,8 @@ function App() {
         'Authorization': 'Bearer G3zkEbRdjqJ23BMXDvuN211zaw2CSa0nIKAtqQ8rCvc37lMZVkCouRrW6gaG3Ev3'
       }
     });
+    setPages(1);
+    setItems({});
     fetch(request).then((response) =>{
       return response.json();
     }).then(data => {
@@ -29,36 +32,48 @@ function App() {
           image: current.raster_sizes[min].formats[0].preview_url
         }
       });
-      setImages(iconsArray);
-
+      let newI = {
+        0: iconsArray
+      };
+      setItems(newI);      
       setPages(Math.ceil(data.total_count/itemsPerPage));
+      setLoader(false);
     });
+    setLoader(true);
   }
 
+
+
   const takePage = (page) => {
-    return () => {
-      const request = new Request(`http://localhost:3001/v4/icons/search?query=${searchValue}&count=${itemsPerPage}&offset=${itemsPerPage*(page-1)}`,
-      {
-        method: 'GET', 
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer G3zkEbRdjqJ23BMXDvuN211zaw2CSa0nIKAtqQ8rCvc37lMZVkCouRrW6gaG3Ev3'
+  
+    const request = new Request(`http://localhost:3001/v4/icons/search?query=${searchValue}&count=${itemsPerPage}&offset=${itemsPerPage*(page-1)}`,
+    {
+      method: 'GET', 
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer G3zkEbRdjqJ23BMXDvuN211zaw2CSa0nIKAtqQ8rCvc37lMZVkCouRrW6gaG3Ev3'
+      }
+    });
+
+    fetch(request).then((response) =>{
+      return response.json();
+    }).then(data => {
+      let iconsArray = data.icons.map((current, index) => {
+        let sizeLength = current.raster_sizes.length;
+        let min = Math.min(5,sizeLength-1);
+        return {
+          image: current.raster_sizes[min].formats[0].preview_url
         }
       });
-  
-      fetch(request).then((response) =>{
-        return response.json();
-      }).then(data => {
-        let iconsArray = data.icons.map((current, index) => {
-          let sizeLength = current.raster_sizes.length;
-          let min = Math.min(5,sizeLength-1);
-          return {
-            image: current.raster_sizes[min].formats[0].preview_url
-          }
-        });
-        setImages(iconsArray);
-      });
-    }
+      
+      let newItems = {
+        ...items,
+      }
+      newItems[page] = iconsArray;
+      setItems(newItems);
+      setLoader(false);
+    });
+    setLoader(true);
   }
 
 
@@ -67,45 +82,17 @@ function App() {
     setSearch(event.target.value);
   }
 
-
-  const rowOfPages = () => {
-    let array = [];
-    for(let i = 1; i <= numberPages; i++) {
-       array.push(<div className='small-page' onClick={takePage(i)}>{i}</div>);
-    }
-    return array;
-  }
-
-  const createPagesArray = (number) => {
-    let pagesArray = [];
-    for(let i = 1; i <= number; i++) {
-      pagesArray.push(i);
-      console.log(pagesArray)
-    }
-
-    return pagesArray;
-  }
- 
-
+  console.log("items",items);
 
   return (
     <div>
       <input type='text' onChange={changeSearchValue}/>
       <button onClick={makeRequest}>Search</button>
-      <div className="pages">
+      <RequestedItems pages={numberPages} items={items} onPageReq={takePage}/>
       {
-        rowOfPages()
+        (loader) ? <Loader /> : null
       }
-      </div>
-      <div>
-      {
-        images.map(current => {
-          return (<img key={current.image} src={current.image}></img>)
-        })
-      }
-
-      </div>
-      <Small pages={10} currentPage={2} /> 
+      
     </div>
   );
 }
