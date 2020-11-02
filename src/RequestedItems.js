@@ -15,12 +15,16 @@ function RequestedItems(props) {
     }
 
     return (
-        <div>
+        <div className="big-container-for-icons">
             <Small pages={pages} currentPage={currentPage} onChangePage={onChangePage}  />
             {
                 (items[currentPage]!== undefined) ?
                 items[currentPage].map((current) => {
-                    return <img src={current.image}></img>
+                    return (
+                        <div className="small-container">
+                            <img src={current.image}></img>
+                        </div>
+                    )
                 }) : ''
             }
         </div>
