@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import Small from './Small.js';
+import './RequestedItems.less';
 
 function RequestedItems(props) {
     const {pages, items} = props;
@@ -15,18 +16,31 @@ function RequestedItems(props) {
     }
 
     return (
-        <div className="big-container-for-icons">
-            <Small pages={pages} currentPage={currentPage} onChangePage={onChangePage}  />
+        <div className="container">
+            <Small pages={pages} currentPage={currentPage} onChangePage={onChangePage}  /> 
+            <div className="big-container-for-icons">
             {
                 (items[currentPage]!== undefined) ?
                 items[currentPage].map((current) => {
                     return (
                         <div className="small-container">
-                            <img src={current.image}></img>
+                            <div className="tags">
+                                {
+                                    current.tags.map((tag, index)=> {
+                                        if(index <= 5) return <div className="tag">#{tag}</div>
+                                        else return null;   
+                                    })
+                                }
+                            </div>
+                            <div className="down-container">
+                                <img src={current.image}></img>
+                                <div className="id">{current.id}</div>
+                            </div>
                         </div>
                     )
                 }) : ''
             }
+            </div>
         </div>
     );
 }

@@ -1,0 +1,68 @@
+@import './variables.less';
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    background-color: @dark;
+
+    .big-container-for-icons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    
+        .small-container {
+            padding: 12px;
+            margin: 10px 5px;
+            background-color: @yellow;
+            width: 321px;
+            border-radius: 30px;
+
+            .tags {
+                background-color: @yellow;
+                display: flex;
+                flex-wrap: wrap;
+
+                .tag {
+                    background-color: @yellow;
+                    font-weight: bold;
+                    color: @pink;
+                    margin-right: 5px;
+
+    
+                }
+            }
+
+            .down-container {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                background-color: @yellow;
+
+                .id {
+                   background-color: @red;
+                   color: @yellow;
+                   font-size: 12px;
+                   font-weight: bold;
+                   height: 17px;
+                   padding: 2px;
+                   border-radius: 4px;
+                   margin-right: 4px;
+                   margin-top: 45px;
+                }
+
+                img {
+                    background-color: @yellow;
+                    margin-right: 20px;
+                    margin-top: 5px;
+                    max-width: 64px;
+                    max-height: 64px;
+                }
+            }
+
+            
+
+        }
+    }
+}

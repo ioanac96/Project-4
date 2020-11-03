@@ -1,15 +1,16 @@
-import React, {useState} from 'react';
-import './App.css';
+import React, {useEffect, useState} from 'react';
+import './App.less';
 import Loader from './Loader.js';
 import RequestedItems from './RequestedItems.js';
 
 function App() {
 
   const [searchValue, setSearch] = useState('');
-  const [numberPages, setPages] = useState(1);
+  const [numberPages, setPages] = useState(0);
   const [itemsPerPage, setWanted] = useState(50);
   const [items, setItems] = useState({});
   const [loader, setLoader] = useState(false);
+
 
   const makeRequest = () => {
     const request = new Request(`http://localhost:3001/v4/icons/search?query=${searchValue}&count=${itemsPerPage}`, 
@@ -20,7 +21,7 @@ function App() {
         'Authorization': 'Bearer G3zkEbRdjqJ23BMXDvuN211zaw2CSa0nIKAtqQ8rCvc37lMZVkCouRrW6gaG3Ev3'
       }
     });
-    setPages(1);
+    setPages(0);
     setItems({});
     fetch(request).then((response) =>{
       return response.json();
@@ -29,7 +30,9 @@ function App() {
         let sizeLength = current.raster_sizes.length;
         let min = Math.min(5,sizeLength-1);
         return {
-          image: current.raster_sizes[min].formats[0].preview_url
+          image: current.raster_sizes[min].formats[0].preview_url,
+          id: current.icon_id,
+          tags: current.tags
         }
       });
       let newI = {
@@ -54,15 +57,17 @@ function App() {
         'Authorization': 'Bearer G3zkEbRdjqJ23BMXDvuN211zaw2CSa0nIKAtqQ8rCvc37lMZVkCouRrW6gaG3Ev3'
       }
     });
-
     fetch(request).then((response) =>{
       return response.json();
     }).then(data => {
+    
       let iconsArray = data.icons.map((current, index) => {
         let sizeLength = current.raster_sizes.length;
         let min = Math.min(5,sizeLength-1);
         return {
-          image: current.raster_sizes[min].formats[0].preview_url
+          image: current.raster_sizes[min].formats[0].preview_url,
+          id: current.icon_id,
+          tags: current.tags
         }
       });
       
@@ -72,9 +77,15 @@ function App() {
       newItems[page] = iconsArray;
       setItems(newItems);
       setLoader(false);
+      
     });
     setLoader(true);
+
+
+    
   }
+
+  console.log(numberPages);
 
 
 
@@ -82,12 +93,13 @@ function App() {
     setSearch(event.target.value);
   }
 
-  console.log("items",items);
-
+  
   return (
-    <div>
-      <input type='text' onChange={changeSearchValue}/>
-      <button onClick={makeRequest}>Search</button>
+    <div className="search-portion">
+      <div className="search-up">
+        <input type='text' onChange={changeSearchValue}/>
+        <button onClick={makeRequest}>Search</button>
+      </div>
       <RequestedItems pages={numberPages} items={items} onPageReq={takePage}/>
       {
         (loader) ? <Loader /> : null
