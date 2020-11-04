@@ -6,6 +6,7 @@ function RequestedItems(props) {
     const {pages, items} = props;
     const [currentPage, setCurrentPage] = useState(0);
 
+
     useEffect(() => {
         setCurrentPage(0);
     }, [pages])
@@ -17,7 +18,9 @@ function RequestedItems(props) {
 
     return (
         <div className="container">
-            <Small pages={pages} currentPage={currentPage} onChangePage={onChangePage}  /> 
+            
+            
+            <Small pages={pages} currentPage={currentPage} onChangePage={onChangePage} onClicked={props.onClicked} /> 
             <div className="big-container-for-icons">
             {
                 (items[currentPage]!== undefined) ?
