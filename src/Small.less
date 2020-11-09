@@ -1,9 +1,117 @@
 @import './variables.less';
 
 .entire-region {
-    .select {
-        background-color: @yellow;
+   .select-region {
+       display: flex;
+       justify-content: center;
+       margin-top: 10px;
+
+       .select {
+           background-color: @yellow;
+           color: @red;
+           width: 200px;
+
+           .react-select__control {
+            background-color: @yellow;
+            border: none;
+
+            &:focus {
+                outline: none;
+            } 
+
+                .react-select__value-container {
+                    background-color: @yellow;
+                    color: @red;
+
+                    .react-select__placeholder {
+                        background-color: @yellow;
+                        color: @red;
+                    }
+
+                    .css-b8ldur-Input {
+                        background-color: @yellow;
+                        color: @red;
+
+                        .react-select__input {
+                            background-color: @yellow;
+                            color: @red;
+                        }
+                    }
+                }
+
+                .react-select__value-container--has-value {
+                    background-color: @yellow;
+                    color: @red;
+                }
+
+                .react-select__indicators {
+                    background-color: @red;
+                    color: @yellow;
+
+                    .react-select__indicator-separator {
+                        border: none;
+                        background-color:@red;
+                    }
+
+                    .react-select__indicator {
+                        color: @yellow;
+                        background-color: @red;
+                        &:focus {
+                            outline: none;
+                        } 
+
+                        svg {
+                            background-color: @red;
+                        }
+                    }
+
+                    .react-select__dropdown-indicator {
+                        background-color: @red;
+                        &:focus {
+                            outline: none;
+                        } 
+
+                        svg {
+                            background-color: @red;
+                        }
+                    }
+                }
+                
+            }
+
+            .react-select__menu {
+
+                .react-select__menu-list {
+                    background-color: @red;
+
+                    &:focus {
+                        outline: none;
+                    } 
+
+                    .react-select__option {
+                        background-color: @red;
+                        color: @yellow
+                    }
+    
+                    .react-select__option--is-focused {
+                        background-color: @yellow;
+                        color: @red;
+                        box-shadow: none;
+                        border: none;
+                    }
+                }
+
+               
+            }
+
+            
+
+            
+       }
+
+       
     }
+   
 }
 
 .small {

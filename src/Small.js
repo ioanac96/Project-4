@@ -2,11 +2,24 @@ import React, {useState} from 'react';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import './Small.less';
+import Select from 'react-select';
+
+const options = [
+    {value: 10, label: '10'},
+    {value: 20, label: '20'},
+    {value: 30, label: '30'},
+    {value: 50, label: '50'},
+    {value: 100, label: '100'}
+]
 
 function Small(props) {
-    const [pagesNumber, setPages] = useState(10);
+    let {pages, currentPage, itemsPerPage} = props;
 
-    let {pages, currentPage} = props;
+    const found = options.find((current) => current.value === itemsPerPage);
+
+    const [pagesNumber, setPages] = useState(found);
+
+  
     let pagesShowing = [];
     for (let i = 0; i < pages; ++i) {
         if (i < 3 || i > pages - 4) pagesShowing.push(i);
@@ -14,9 +27,9 @@ function Small(props) {
     }
 
    
-    const handleChange = (event) => {
-        setPages(event.target.value);
-        props.onClicked(event.target.value);
+    const handleChange = (selectedOption) => {
+        setPages(selectedOption);
+        props.onClicked(selectedOption.value);
     }
 
     console.log("small", pagesNumber);
@@ -25,13 +38,7 @@ function Small(props) {
 
     return (
         <div className="entire-region">
-            <select className="select" value={pagesNumber} onChange={handleChange}>
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-            </select> 
+            
         <div className="small">
             <ArrowBackIosIcon  className="arrow" onClick={() => {
                 currentPage !== 0 && props.onChangePage(currentPage-1)
@@ -41,6 +48,9 @@ function Small(props) {
                 pages !== 0 && currentPage !== pages-1 && props.onChangePage(currentPage+1)
             }}/>
         </div>
+        <div className="select-region">
+            <Select  className="select" placeholder="number of pages" classNamePrefix="react-select" options={options} value={pagesNumber} onChange={handleChange}/>
+            </div>
         </div>
     )
 

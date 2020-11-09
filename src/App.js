@@ -8,7 +8,7 @@ function App() {
 
   const [searchValue, setSearch] = useState('');
   const [numberPages, setPages] = useState(0);
-  const [itemsPerPage, setWanted] = useState(10);
+  const [itemsPerPage, setWanted] = useState(50);
   const [items, setItems] = useState({});
   const [loader, setLoader] = useState(false);
 
@@ -59,7 +59,7 @@ console.log(itemsPerPage);
         <input type='text' onChange={changeSearchValue}/>
         <button onClick={makeRequest}>Search</button>
       </div>
-      <RequestedItems pages={numberPages} items={items} onPageReq={takePage} onClicked={onClicked}/>
+      <RequestedItems pages={numberPages} items={items} onPageReq={takePage} onClicked={onClicked} itemsPerPage={itemsPerPage}/>
       {
         (loader) ? <Loader /> : null
       }

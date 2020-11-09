@@ -3,9 +3,8 @@ import Small from './Small.js';
 import './RequestedItems.less';
 
 function RequestedItems(props) {
-    const {pages, items} = props;
+    const {pages, items, itemsPerPage} = props;
     const [currentPage, setCurrentPage] = useState(0);
-
 
     useEffect(() => {
         setCurrentPage(0);
@@ -20,7 +19,7 @@ function RequestedItems(props) {
         <div className="container">
             
             
-            <Small pages={pages} currentPage={currentPage} onChangePage={onChangePage} onClicked={props.onClicked} /> 
+            <Small pages={pages} currentPage={currentPage} onChangePage={onChangePage} onClicked={props.onClicked} itemsPerPage={itemsPerPage}/> 
             <div className="big-container-for-icons">
             {
                 (items[currentPage]!== undefined) ?
