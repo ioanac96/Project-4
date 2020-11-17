@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import './Small.less';
@@ -18,6 +18,7 @@ function Small(props) {
     const found = options.find((current) => current.value === itemsPerPage);
 
     const [pagesNumber, setPages] = useState(found);
+    console.log('asasasa');
 
   
     let pagesShowing = [];
