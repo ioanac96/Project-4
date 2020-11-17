@@ -18,6 +18,7 @@ function Small(props) {
     const found = options.find((current) => current.value === itemsPerPage);
 
     const [pagesNumber, setPages] = useState(found);
+    console.log('asasasa');
 
   
     let pagesShowing = [];
